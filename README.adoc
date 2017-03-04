@@ -1,0 +1,5 @@
+image:https://travis-ci.org/toedter/ms60min.svg?branch=master[Build Status, link="https://travis-ci.org/toedter/microservice-60min"]
+image:http://img.shields.io/badge/license-MIT-blue.svg["MIT", link="http://toedter.mit-license.org"]
+
+
+# microservice-60min
