@@ -13,9 +13,9 @@ install: true
 script:
   - ./gradlew build
   - docker build -t kaitoedter/ms60min build
-  - docker login --email="$DOCKER_EMAIL" --username="$DOCKER_USERNAME" --password="$DOCKER_PASSWORD"
+  - docker login --username="$DOCKER_USERNAME" --password="$DOCKER_PASSWORD"
   - docker push kaitoedter/ms60min
-  - docker login --email=_ --username=_ --password="$HEROKU_AUTH_TOKEN" registry.heroku.com
+  - docker login --username=_ --password="$HEROKU_AUTH_TOKEN" registry.heroku.com
   - docker tag kaitoedter/ms60min registry.heroku.com/microservice-60min/web
   - docker push registry.heroku.com/microservice-60min/web
 
