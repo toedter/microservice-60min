@@ -1,0 +1,42 @@
+task deleteDockerDir(type: Delete) {
+    delete "${buildDir}/docker"
+}
+
+task unzipBoot(type: Copy) {
+    def zipFile = file("${buildDir}/libs/ms60min-" + project.version + '.jar')
+    def outputDir = file("${buildDir}/docker/app")
+
+    from zipTree(zipFile)
+    into outputDir
+
+    def copyDetails = []
+    eachFile { copyDetails << it }
+    doLast {
+        copyDetails.each { FileCopyDetails details ->
+            def target = new File(outputDir, details.path)
+            if (target.exists()) {
+                target.setLastModified(details.lastModified)
+            }
+        }
+    }
+}
+unzipBoot.dependsOn deleteDockerDir
+
+task moveBootExplodedLib() {
+    doLast {
+        ant.move(file: "${buildDir}/docker/app/BOOT-INF/lib", toFile: "${buildDir}/docker/lib")
+    }
+}
+moveBootExplodedLib.dependsOn unzipBoot
+
+task createDockerfile () {
+    doLast {
+        def dockerfile = new File("$buildDir/Dockerfile")
+        dockerfile.write 'FROM java:openjdk-8-jre-alpine\n'
+        dockerfile << 'COPY docker/lib/ /app/BOOT-INF/lib/\n'
+        dockerfile << 'COPY docker/app/ /app/\n'
+        dockerfile << 'CMD java $CHATTY_JAVA_ARGS -Xmx400m -Xms400m -cp /app/ org.springframework.boot.loader.JarLauncher\n'
+        dockerfile << 'EXPOSE 8080\n'
+    }
+}
+createDockerfile.dependsOn moveBootExplodedLib

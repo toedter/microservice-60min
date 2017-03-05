@@ -13,10 +13,11 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
+apply from: "$rootDir/gradle/versioning.gradle"
+apply from: "$rootDir/gradle/docker.gradle"
 
 jar {
 	baseName = 'ms60min'
-	version = '1.0.0'
 }
 
 sourceCompatibility = 1.8
@@ -24,7 +25,6 @@ sourceCompatibility = 1.8
 repositories {
 	mavenCentral()
 }
-
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-rest')
@@ -36,3 +36,6 @@ dependencies {
 	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
+
+build.dependsOn createDockerfile
+
