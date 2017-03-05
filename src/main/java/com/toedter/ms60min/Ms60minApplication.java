@@ -19,6 +19,7 @@ public class Ms60minApplication {
 		return args -> {
 			thingRepository.save(new Thing("1", "Hammer", "Black"));
 			thingRepository.save(new Thing("2", "Flute", "Silver"));
+			thingRepository.save(new Thing("3", "Car", "Blue"));
 		};
 	}
 }
