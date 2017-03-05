@@ -4,4 +4,4 @@ image:http://img.shields.io/badge/license-MIT-blue.svg["MIT", link="http://toedt
 
 # microservice-60min
 
-This is the source coode for my conference sessions about creating and deploying a microservice with Spring Boot, Angular and Docker.
+This is the source code for my conference sessions about creating and deploying a microservice with Spring Boot, Angular and Docker.
