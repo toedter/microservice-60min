@@ -12,3 +12,6 @@ install: true
 
 script:
   - ./gradlew build
+  - docker build -t kaitoedter/ms60min build
+  - docker login --email="$DOCKER_EMAIL" --username="$DOCKER_USERNAME" --password="$DOCKER_PASSWORD"
+  - docker push kaitoedter/ms60min
