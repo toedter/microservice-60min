@@ -41,7 +41,6 @@ var webpackConfig = {
 
 };
 
-
 // Our Webpack Defaults
 var defaultConfig = {
     devtool: 'source-map',
@@ -78,6 +77,5 @@ var defaultConfig = {
         setImmediate: false
     }
 };
-
 
 module.exports = webpackMerge(defaultConfig, webpackConfig);
