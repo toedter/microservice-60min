@@ -2,7 +2,7 @@ image:https://travis-ci.org/toedter/microservice-60min.svg?branch=master[Build S
 image:http://img.shields.io/badge/license-MIT-blue.svg["MIT", link="http://toedter.mit-license.org"]
 
 
-# microservice-60min
+# A Microservice in 60 Minutes
 
 This is the source code for my conference sessions about creating and deploying
 a microservice with Spring Boot, Angular and Docker.
