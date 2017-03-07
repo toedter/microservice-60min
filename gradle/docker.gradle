@@ -35,7 +35,7 @@ task createDockerfile () {
         dockerfile.write 'FROM java:openjdk-8-jre-alpine\n'
         dockerfile << 'COPY docker/lib/ /app/BOOT-INF/lib/\n'
         dockerfile << 'COPY docker/app/ /app/\n'
-        dockerfile << 'CMD java $CHATTY_JAVA_ARGS -Xmx400m -Xms400m -cp /app/ org.springframework.boot.loader.JarLauncher\n'
+        dockerfile << 'CMD java $MS60Min_JAVA_ARGS -Xmx400m -Xms400m -cp /app/ org.springframework.boot.loader.JarLauncher\n'
         dockerfile << 'EXPOSE 8080\n'
     }
 }
