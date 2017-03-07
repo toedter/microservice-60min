@@ -26,9 +26,9 @@ public class Ms60minApplication {
 	@Bean
 	CommandLineRunner init(ThingRepository thingRepository) {
 		return args -> {
-			thingRepository.save(new Thing("1", "Hammer", "Black"));
-			thingRepository.save(new Thing("2", "Flute", "Silver"));
-			thingRepository.save(new Thing("3", "Car", "Blue"));
+			thingRepository.save(new Thing("1", "Hammer", "Orange"));
+			thingRepository.save(new Thing("2", "Flute", "Red"));
+			thingRepository.save(new Thing("3", "Car", "Cyan"));
 		};
 	}
 }

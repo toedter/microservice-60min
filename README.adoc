@@ -2,6 +2,28 @@ image:https://travis-ci.org/toedter/microservice-60min.svg?branch=master[Build S
 image:http://img.shields.io/badge/license-MIT-blue.svg["MIT", link="http://toedter.mit-license.org"]
 
 
-# microservice-60min
+# A Microservice in 60 Minutes
 
-This is the source code for my conference sessions about creating and deploying a microservice with Spring Boot, Angular and Docker.
+This is the source code for my conference sessions about creating and deploying
+a microservice with Spring Boot, Angular and Docker.
+
+## Getting Started
+
+* Make sure Java 8 JDK is installed
+* Open a terminal and invoke "./gradlew build bootrun" (just "gradlew" under Windows)
+* Open a Web browser at http://localhost:8080
+
+## Travis CI
+You can browse th latest Travis CI build at https://travis-ci.org/toedter/microservice-60min
+
+## Heroku
+
+Travis CI deploys the resulting Docker container to Heroku,
+you find the latest version running at
+https://microservice-60min.herokuapp.com
+
+## REST API
+You can browse the REST API with the HAL browser at
+https://microservice-60min.herokuapp.com/api/browser/index.html#/api
+
+
