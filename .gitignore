@@ -25,3 +25,6 @@ nbdist/
 .nb-gradle/
 
 node_modules
+*tfstate*
+*.pem
+*.ppk
