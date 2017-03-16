@@ -27,7 +27,7 @@ public class Ms60minApplication {
 	CommandLineRunner init(ThingRepository thingRepository) {
 		return args -> {
 			thingRepository.save(new Thing("1", "Hammer", "Orange"));
-			thingRepository.save(new Thing("2", "Flute", "Red"));
+			thingRepository.save(new Thing("2", "Violin", "Red"));
 			thingRepository.save(new Thing("3", "Car", "Cyan"));
 		};
 	}
