@@ -28,7 +28,7 @@ public class Ms60minApplication {
 		return args -> {
 			thingRepository.save(new Thing("1", "Hammer", "Orange"));
 			thingRepository.save(new Thing("2", "Bike", "Red"));
-			thingRepository.save(new Thing("3", "Car", "Cyan"));
+			thingRepository.save(new Thing("3", "Car", "Blue"));
 		};
 	}
 }
