@@ -1,17 +1,17 @@
 buildscript {
-	ext {
-		springBootVersion = '1.5.2.RELEASE'
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+    ext {
+        springBootVersion = '1.5.2.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
 }
 
 plugins {
-	id "com.moowork.node" version "0.13"
+    id "com.moowork.node" version "0.13"
 }
 
 apply plugin: 'java'
@@ -22,44 +22,46 @@ apply from: "$rootDir/gradle/versioning.gradle"
 apply from: "$rootDir/gradle/docker.gradle"
 
 node {
-	download = true
-	version = '6.10.0'
-	workDir = file("${project.buildDir}/node")
-	nodeModulesDir = file("${project.projectDir}")
+    download = true
+    version = '6.10.0'
+    workDir = file("${project.buildDir}/node")
+    nodeModulesDir = file("${project.projectDir}")
 }
 
 jar {
-	baseName = 'ms60min'
+    baseName = 'ms60min'
 }
 
 sourceCompatibility = 1.8
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-data-rest')
-	compile('org.springframework.boot:spring-boot-starter-data-jpa')
-	compile('org.springframework.data:spring-data-rest-hal-browser')
-	compile('org.springframework.boot:spring-boot-starter-hateoas')
-	runtime('org.springframework.boot:spring-boot-devtools')
-	runtime('org.hsqldb:hsqldb')
-	compileOnly('org.projectlombok:lombok')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+    compile('org.springframework.boot:spring-boot-starter-data-rest')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.data:spring-data-rest-hal-browser')
+
+    compileOnly('org.projectlombok:lombok')
+
+    runtime('org.springframework.boot:spring-boot-devtools')
+    runtime('org.hsqldb:hsqldb')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
 task copyWebApp(type: Copy) {
-	from('dist') {
-		include '**/*.js'
-	}
-	from('src/main/webapp') {
-		include '**/*.css'
-		include '**/*.html'
-	}
-	into 'build/resources/main/static'
+    from('dist') {
+        include '**/*.js'
+    }
+    from('src/main/webapp') {
+        include '**/*.css'
+        include '**/*.html'
+    }
+    into 'build/resources/main/static'
 
-	includeEmptyDirs = false
+    includeEmptyDirs = false
 }
 
 npm_run_build.inputs.dir new File(projectDir, "src/main/webapp")
