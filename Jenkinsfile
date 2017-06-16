@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('build') {
             environment {
-                npm_config_cache = npm-cache
+                npm_config_cache = 'npm-cache'
             }
             steps {
                 sh './gradlew build'
