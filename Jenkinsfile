@@ -1,5 +1,5 @@
 pipeline {
-    agent { docker 'java:openjdk-8-jre' }
+    agent { docker 'java:openjdk-8' }
     stages {
         stage('build') {
             steps {
