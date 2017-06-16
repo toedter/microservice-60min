@@ -1,9 +1,9 @@
 pipeline {
-    agent { docker 'java:openjdk-8-jre-alpine' }
+    agent { docker 'java:openjdk-8-jre' }
     stages {
         stage('build') {
             steps {
-                ash './gradlew build'
+                sh './gradlew build'
             }
         }
     }
