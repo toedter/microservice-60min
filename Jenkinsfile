@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh "sudo chown -R $USER:$GROUP ~/.npm"
+                sh 'sudo chown -R $USER:$GROUP ~/.npm'
                 sh './gradlew build'
             }
         }
