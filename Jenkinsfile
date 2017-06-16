@@ -1,9 +1,9 @@
 pipeline {
-    agent { docker 'maven:3.3.3' }
+    agent { docker 'java:openjdk-8-jre-alpine' }
     stages {
         stage('build') {
             steps {
-                sh 'mvn --version'
+                sh './gradlew build'
             }
         }
     }
