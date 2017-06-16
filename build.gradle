@@ -23,7 +23,7 @@ apply from: "$rootDir/gradle/docker.gradle"
 
 node {
     download = true
-    version = '6.10.3'
+    version = '6.11.0'
     workDir = file("${project.buildDir}/node")
     nodeModulesDir = file("${project.projectDir}")
 }
