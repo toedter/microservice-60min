@@ -22,7 +22,7 @@ pipeline {
                 npm_config_cache = 'npm-cache'
             }
             steps {
-                sh './gradlew integrationTest'
+                sh './gradlew sonarqube'
             }
         }
     }
