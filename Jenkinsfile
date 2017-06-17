@@ -23,7 +23,7 @@ pipeline {
             }
             steps {
                 withEnv(["SONARQUBE_SERVER_URL=${SONARQUBE_SERVER}"]) {
-                    sh './gradlew -Dsonar.host.url ${SONARQUBE_SERVER_URL} sonarqube'
+                    sh './gradlew -Dsonar.host.url=${SONARQUBE_SERVER_URL} sonarqube'
                 }
             }
         }
