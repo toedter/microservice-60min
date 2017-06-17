@@ -14,12 +14,11 @@ public class Ms60minApplication {
 		// when deployed as a docker container to Heroku
 		// Heroku sets the PORT environment variable
 		// The DYNO environment variable is just to make sure to run in an Heroku environment
-		String ENV_PORT = System.getenv().get("PORT");
-		String ENV_DYNO = System.getenv().get("DYNO");
-		if(ENV_PORT != null && ENV_DYNO != null) {
-			System.getProperties().put("server.port", ENV_PORT);
+		String herokuPort = System.getenv().get("PORT");
+		String herokuDyno = System.getenv().get("DYNO");
+		if(herokuPort != null && herokuDyno != null) {
+			System.getProperties().put("server.port", herokuPort);
 		}
-
 		SpringApplication.run(Ms60minApplication.class, args);
 	}
 

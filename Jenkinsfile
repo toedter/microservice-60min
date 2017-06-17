@@ -1,12 +1,28 @@
 pipeline {
     agent { docker 'java:openjdk-8' }
     stages {
-        stage('build') {
+        stage('build + tests') {
             environment {
                 npm_config_cache = 'npm-cache'
             }
             steps {
-                sh './gradlew build'
+                sh './gradlew test'
+            }
+        }
+        stage('integ tests') {
+            environment {
+                npm_config_cache = 'npm-cache'
+            }
+            steps {
+                sh './gradlew integrationTest'
+            }
+        }
+        stage('sonarqube') {
+            environment {
+                npm_config_cache = 'npm-cache'
+            }
+            steps {
+                sh './gradlew integrationTest'
             }
         }
     }
