@@ -22,7 +22,9 @@ pipeline {
                 npm_config_cache = 'npm-cache'
             }
             steps {
-                sh './gradlew sonarqube'
+                withEnv(["SONARQUBE_SERVER_URL=${SONARQUBE_SERVER}"]) {
+                    sh './gradlew -Dsonar.host.url ${SONARQUBE_SERVER_URL} sonarqube'
+                }
             }
         }
     }
