@@ -21,7 +21,7 @@ pipeline {
         }
         stage('sonarqube') {
             steps {
-                withEnv(["SONARQUBE_SERVER_URL=http://172.18.0.3:9000"]) {
+                withEnv(["SONARQUBE_SERVER_URL=${SONARQUBE_SERVER}"]) {
                     sh './gradlew -Dsonar.host.url=${SONARQUBE_SERVER_URL} sonarqube'
                 }
             }
