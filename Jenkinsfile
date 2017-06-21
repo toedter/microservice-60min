@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'java:openjdk-8'
-            args  '--add-host="sonarqube:172.18.0.3"'
+            args  '--add-host=sonarqube:172.18.0.3 --net=host'
         }
     }
     stages {
