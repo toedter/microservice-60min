@@ -189,3 +189,7 @@ artifactory {
     }
 }
 
+// This is needed to build the Spring Boot fat jar first
+publish {
+    dependsOn assemble
+}
