@@ -165,6 +165,9 @@ def branchFromScm() {
 publishing {
     publications {
         mavenJava(MavenPublication) {
+            groupId 'com.toedter'
+            artifactId 'com.toedter.ms60min'
+
             from components.java
         }
     }
