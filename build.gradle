@@ -151,6 +151,10 @@ sonarqube {
 }
 tasks.sonarqube.dependsOn jacocoMergeReports //, junitMergeReports
 
+def branchFromScm() {
+    return "git rev-parse --abbrev-ref HEAD".execute().text.trim()
+}
+
 // =============================
 //  Artifactory
 // =============================
