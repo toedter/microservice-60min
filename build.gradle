@@ -39,6 +39,10 @@ repositories {
     mavenCentral()
 }
 
+jar {
+    baseName = 'com.toedter.ms60min'
+}
+
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-rest')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
@@ -64,6 +68,9 @@ task copyWebApp(type: Copy) {
 
     includeEmptyDirs = false
 }
+
+npm_install.inputs.file new File(projectDir, "package.json")
+npm_install.outputs.dir new File(projectDir, "node_modules")
 
 npm_run_build.inputs.dir new File(projectDir, "src/main/webapp")
 npm_run_build.outputs.dir new File(projectDir, "dist")

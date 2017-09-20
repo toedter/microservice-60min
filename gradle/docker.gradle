@@ -3,7 +3,7 @@ task deleteDockerDir(type: Delete) {
 }
 
 task unzipBoot(type: Copy) {
-    def zipFile = file("${buildDir}/libs/ms60min-" + project.version + '.jar')
+    def zipFile = file("${buildDir}/libs/com.toedter.ms60min-" + project.version + '.jar')
     def outputDir = file("${buildDir}/docker/app")
 
     from zipTree(zipFile)
