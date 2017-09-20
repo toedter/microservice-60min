@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '1.5.6.RELEASE'
+        springBootVersion = '1.5.7.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -11,37 +11,30 @@ buildscript {
 }
 
 plugins {
-    id "com.moowork.node" version "1.1.1"
+    id "com.moowork.node" version "1.2.0"
     id "org.sonarqube" version "2.5"
+    id "com.jfrog.artifactory" version "4.4.12"
 }
 
+apply plugin: 'eclipse'
+apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: "jacoco"
 apply plugin: 'org.springframework.boot'
-apply plugin: 'com.moowork.node'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
+apply plugin: 'maven-publish'
+
 apply from: "$rootDir/gradle/versioning.gradle"
 apply from: "$rootDir/gradle/docker.gradle"
-apply from: "$rootDir/gradle/integrationTest.gradle"
 
 node {
     download = true
-    version = '6.11.0'
+    version = '6.11.3'
     workDir = file("${project.buildDir}/node")
     nodeModulesDir = file("${project.projectDir}")
 }
 
 jar {
     baseName = 'ms60min'
-}
-
-sonarqube {
-    properties {
-        property 'sonar.projectName', 'Microservice in 60 Minutes'
-        property 'sonar.jacoco.reportPaths', 'build/jacoco/test.exec,build/jacoco/integrationTest.exec'
-        properties['sonar.tests'] += sourceSets.integrationTest.allSource.srcDirs
-    }
 }
 
 sourceCompatibility = 1.8
@@ -87,4 +80,102 @@ copyWebApp.dependsOn npm_run_build
 jar.dependsOn copyWebApp
 build.dependsOn createDockerfile, npm_install, copyWebApp
 
+// =============================
+//  JUnit
+// =============================
+
+test {
+    group = 'test'
+    description = 'Runs all unit tests for this project (fast)'
+    useJUnit {
+        includeCategories 'com.toedter.test.category.UnitTest'
+    }
+    jacoco {
+        destinationFile = file("$buildDir/jacoco/jacoco.exec")
+    }
+}
+
+task integrationTest(type: Test) {
+    group = 'test'
+    description = 'Runs all integration tests for this project (slow)'
+    useJUnit {
+        includeCategories 'com.toedter.test.category.IntegrationTest'
+    }
+    reports.junitXml.destination = file("$buildDir/test-results/test/")
+    jacoco {
+        destinationFile = file("$buildDir/jacoco/jacoco-it.exec")
+    }
+    // set build directory for Jenkins test harness, JENKINS-26331
+    systemProperty 'buildDirectory', project.buildDir.absolutePath
+}
+
+// =============================
+//  JaCoCo
+// =============================
+
+jacoco {
+    toolVersion = "0.7.9"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
+
+task jacocoMergeReports(type: JacocoMerge) {
+    destinationFile = file("${project.buildDir}/jacoco/coverage.exec")
+    def unitSource = new File("${project.buildDir}/jacoco/jacoco.exec")
+    def integrationSource = new File("${project.buildDir}/jacoco/jacoco-i.exec")
+    if (unitSource.exists() && integrationSource.exists()) {
+        executionData = files(unitSource, integrationSource)
+    } else if (unitSource.exists()) {
+        executionData = files(unitSource)
+    } else if (integrationSource.exists()) {
+        executionData = files(integrationSource)
+    }
+}
+
+// =============================
+//  SonarQube
+// =============================
+
+sonarqube {
+    // see https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner+for+Gradle
+    properties {
+        property "sonar.projectName", "${project.name}"
+        property "sonar.branch", branchFromScm()
+        property "sonar.junit.reportsPath", "${project.buildDir}/test-results/test/"
+        property "sonar.jacoco.reportPaths", "${project.buildDir}/jacoco/coverage.exec"
+    }
+}
+tasks.sonarqube.dependsOn jacocoMergeReports //, junitMergeReports
+
+// =============================
+//  Artifactory
+// =============================
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+artifactory {
+    publish {
+        contextUrl = 'http://artifactory.pipeline:8081/artifactory'
+        repository {
+            repoKey = 'libs-release-local'
+            username = System.getenv('ARTIFACTORY_LOGIN')
+            password = System.getenv('ARTIFACTORY_PASSWORD')
+        }
+        defaults {
+            publications('mavenJava')
+            publishArtifacts = true
+            publishPom = true
+        }
+    }
+}
 

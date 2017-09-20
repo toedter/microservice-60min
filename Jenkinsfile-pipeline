@@ -1,0 +1,40 @@
+#!groovy
+pipeline {
+    agent {
+        docker {
+            image 'java:openjdk-8'
+        }
+    }
+    environment {
+        JAVA_HOME = "/usr/lib/jvm/java-8-openjdk-amd64"
+        ARTIFACTORY_PASSWORD = "${env.AN_VAR_admin_password}"
+        ARTIFACTORY_LOGIN = "admin"
+        SONAR_PASSWORD = "${env.AN_VAR_admin_password}"
+        SONAR_LOGIN = "admin"
+    }
+    stages {
+        stage('Build') {
+            steps {
+                sh './gradlew clean build'
+            }
+        }
+
+        stage('Integration Test') {
+            steps {
+                sh './gradlew integrationTest'
+            }
+        }
+
+        stage('Quality') {
+            steps {
+                sh "./gradlew sonarqube -Dsonar.host.url=http://sonarqube.pipeline:9000 -Dsonar.password=${SONAR_PASSWORD} -Dsonar.login=${SONAR_LOGIN}"
+            }
+        }
+
+        stage('Publish to Artifactory') {
+            steps {
+                sh './gradlew artifactoryPublish'
+            }
+        }
+    }
+}
