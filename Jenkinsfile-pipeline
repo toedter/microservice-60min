@@ -3,6 +3,7 @@ pipeline {
     agent {
         docker {
             image 'java:openjdk-8'
+            args '-u root:root -e HOME="/home/jenkins-slave" -e _JAVA_OPTIONS="-Duser.home=/home/jenkins-slave" --mount type=bind,source=/etc/hosts,target=/etc/hosts,readonly'
         }
     }
     environment {
