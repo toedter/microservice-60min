@@ -175,7 +175,6 @@ publishing {
 
 artifactory {
     publish {
-        dependsOn assemble
         contextUrl = 'http://artifactory.pipeline:8081/artifactory'
         repository {
             repoKey = 'libs-release-local'
