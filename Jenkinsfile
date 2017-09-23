@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'java:openjdk-8'
-            args  '--mount type=bind,source=/etc/hosts,target=/etc/hosts,readonly'
+            args  '--network=docker_cd-tools-network'
         }
     }
     stages {
