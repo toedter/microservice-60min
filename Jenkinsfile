@@ -6,33 +6,25 @@ pipeline {
             args  '--network=docker_cd-tools-network'
         }
     }
-    environment {
-        SONARQUBE_SERVER_URL = "${env.SONARQUBE_SERVER}"
-        ARTIFACTORY_SERVER = "${env.ARTIFACTORY_SERVER}"
-        npm_config_cache = "npm-cache"
-    }
     stages {
-        stage('Build + Unit Test') {
+        stage('build + tests') {
+            environment {
+                npm_config_cache = 'npm-cache'
+            }
             steps {
                 sh './gradlew test'
             }
         }
-
-        stage('Integration Test') {
+        stage('integ tests') {
             steps {
                 sh './gradlew integrationTest'
             }
         }
-
-        stage('Quality') {
+        stage('sonarqube') {
             steps {
-                sh './gradlew -Dsonar.host.url=${SONARQUBE_SERVER_URL} sonarqube'
-            }
-        }
-
-        stage('Publish to Artifactory') {
-            steps {
-                sh './gradlew artifactoryPublish'
+                withEnv(["SONARQUBE_SERVER_URL=${SONARQUBE_SERVER}"]) {
+                    sh './gradlew -Dsonar.host.url=${SONARQUBE_SERVER_URL} sonarqube'
+                }
             }
         }
     }
