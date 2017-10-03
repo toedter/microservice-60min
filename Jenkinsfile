@@ -29,7 +29,10 @@ pipeline {
         }
         stage('Publish to Artifactory') {
             steps {
-                withEnv(["ARTIFACTORY_SERVER_URL=${env.ARTIFACTORY_SERVER}"]) {
+                withEnv(["ARTIFACTORY_SERVER_URL=${env.ARTIFACTORY_SERVER}",
+                         "ARTIFACTORY_LOGIN=admin",
+                         "ARTIFACTORY_PASSWORD=admin"
+                        ]) {
                     sh './gradlew artifactoryPublish'
                 }
             }
