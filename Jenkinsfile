@@ -7,9 +7,9 @@ pipeline {
         }
     }
     environment {
-        SONARQUBE_SERVER = "${env.SONARQUBE_SERVER}"
+        SONARQUBE_SERVER_URL = "${env.SONARQUBE_SERVER}"
         ARTIFACTORY_SERVER = "${env.ARTIFACTORY_SERVER}"
-        npm_config_cache = 'npm-cache'
+        npm_config_cache = "npm-cache"
     }
     stages {
         stage('Build + Unit Test') {
@@ -26,7 +26,7 @@ pipeline {
 
         stage('Quality') {
             steps {
-                sh './gradlew -Dsonar.host.url=${SONARQUBE_SERVER} sonarqube'
+                sh './gradlew -Dsonar.host.url=${SONARQUBE_SERVER_URL} sonarqube'
             }
         }
 
