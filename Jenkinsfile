@@ -29,7 +29,7 @@ pipeline {
         }
         stage('Publish to Artifactory') {
             steps {
-                withEnv(["ARTIFACTORY_SERVER=${env.ARTIFACTORY_SERVER}"]) {
+                withEnv(["ARTIFACTORY_SERVER_URL=${env.ARTIFACTORY_SERVER}"]) {
                     sh './gradlew artifactoryPublish'
                 }
             }

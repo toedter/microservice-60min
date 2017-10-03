@@ -175,7 +175,7 @@ publishing {
 
 artifactory {
     publish {
-        contextUrl = System.getenv('ARTIFACTORY_SERVER') + '/artifactory'
+        contextUrl = System.getenv('ARTIFACTORY_SERVER_URL') + '/artifactory'
         repository {
             repoKey = 'libs-release-local'
             username = System.getenv('ARTIFACTORY_LOGIN')

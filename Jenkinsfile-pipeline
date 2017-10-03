@@ -10,7 +10,7 @@ pipeline {
         JAVA_HOME = "/usr/lib/jvm/java-8-openjdk-amd64"
         ARTIFACTORY_PASSWORD = "${env.AN_VAR_admin_password}"
         ARTIFACTORY_LOGIN = "admin"
-        ARTIFACTORY_SERVER = "http://artifactory.pipeline:8081"
+        ARTIFACTORY_SERVER_URL = "http://artifactory.pipeline:8081"
         SONAR_PASSWORD = "${env.AN_VAR_admin_password}"
         SONAR_LOGIN = "admin"
     }
