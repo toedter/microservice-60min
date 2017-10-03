@@ -1,3 +1,4 @@
+#!groovy
 pipeline {
     agent {
         docker {
@@ -5,25 +6,33 @@ pipeline {
             args  '--network=docker_cd-tools-network'
         }
     }
+    environment {
+        SONARQUBE_SERVER = "${env.SONARQUBE_SERVER}"
+        ARTIFACTORY_SERVER = "${env.ARTIFACTORY_SERVER}"
+        npm_config_cache = 'npm-cache'
+    }
     stages {
-        stage('build + tests') {
-            environment {
-                npm_config_cache = 'npm-cache'
-            }
+        stage('Build + Unit Test') {
             steps {
                 sh './gradlew test'
             }
         }
-        stage('integ tests') {
+
+        stage('Integration Test') {
             steps {
                 sh './gradlew integrationTest'
             }
         }
-        stage('sonarqube') {
+
+        stage('Quality') {
             steps {
-                withEnv(["SONARQUBE_SERVER_URL=${SONARQUBE_SERVER}"]) {
-                    sh './gradlew -Dsonar.host.url=${SONARQUBE_SERVER_URL} sonarqube'
-                }
+                sh './gradlew -Dsonar.host.url=${SONARQUBE_SERVER} sonarqube'
+            }
+        }
+
+        stage('Publish to Artifactory') {
+            steps {
+                sh './gradlew artifactoryPublish'
             }
         }
     }
