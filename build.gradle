@@ -186,10 +186,7 @@ artifactory {
             publishArtifacts = true
             publishPom = true
         }
+        dependsOn assemble
     }
 }
 
-// This is needed to build the Spring Boot fat jar first
-//publish {
-//    dependsOn assemble
-//}
