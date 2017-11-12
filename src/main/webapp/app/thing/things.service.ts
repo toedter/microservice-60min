@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {Observable} from 'rxjs/Observable';
 import {Thing} from './thing';
+import {HttpClient, HttpResponse} from "@angular/common/http";
 
 @Injectable()
 export class ThingsService {
-    constructor(private http: Http) {
+    constructor(private http: HttpClient) {
     }
 
     public getThings(): Observable<Thing[]> {
@@ -19,7 +19,7 @@ export class ThingsService {
 
         let observable: Observable<Thing[]> =
             this.http.get(uri)
-                .map((response: Response) => response.json()._embedded['things'])
+                .map((response: any) => response._embedded['things'])
                 .catch(this.handleError);
 
         return observable;
