@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Thing} from './thing';
 import {ThingsService} from './things.service';
 
@@ -8,7 +8,7 @@ import {ThingsService} from './things.service';
     templateUrl: 'things.component.html',
     providers: [ThingsService],
 })
-export class ThingsComponent {
+export class ThingsComponent implements OnInit{
     private things: Thing[];
 
     constructor(private thingsService: ThingsService) {
