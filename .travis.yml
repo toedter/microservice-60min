@@ -5,6 +5,12 @@ language: java
 jdk:
   - oraclejdk8
 
+addons:
+  sonarcloud:
+    organization: toedter-github
+    token:
+      secure: "$SONARQUBE_TOKEN"
+
 services:
   - docker
 
@@ -12,10 +18,18 @@ install: true
 
 script:
   - ./gradlew build
+  - ./gradlew sonarqube
   - docker build -t kaitoedter/ms60min build
   - docker login --username="$DOCKER_USERNAME" --password="$DOCKER_PASSWORD"
   - docker push kaitoedter/ms60min
   - docker tag kaitoedter/ms60min registry.heroku.com/microservice-60min/web
   - docker login --username=_ --password="$HEROKU_AUTH_TOKEN" registry.heroku.com
   - docker push registry.heroku.com/microservice-60min/web
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
+    - '$HOME/.gradle'
+    - '.gradle'
 
