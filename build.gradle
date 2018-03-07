@@ -70,8 +70,8 @@ task copyWebApp(type: Copy) {
     includeEmptyDirs = false
 }
 
-// npm_install.inputs.file new File(projectDir, "package.json")
-// npm_install.outputs.dir new File(projectDir, "node_modules")
+npm_install.inputs.file new File(projectDir, "package.json")
+npm_install.outputs.dir new File(projectDir, "node_modules")
 
 npm_run_build.inputs.dir new File(projectDir, "src/main/webapp")
 npm_run_build.outputs.dir new File(projectDir, "dist")
@@ -81,7 +81,7 @@ npm_run_build.dependsOn npm_install
 copyWebApp.outputs.dir new File(projectDir, "dist")
 copyWebApp.dependsOn npm_run_build
 
-jar.dependsOn copyWebApp
+bootJar.dependsOn copyWebApp
 build.dependsOn createDockerfile, npm_install, copyWebApp
 
 // =============================
