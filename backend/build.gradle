@@ -1,0 +1,175 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.1.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+plugins {
+    id "org.sonarqube" version "2.5"
+    id "com.jfrog.artifactory" version "4.6.2"
+}
+
+apply plugin: 'java'
+apply plugin: "jacoco"
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'maven-publish'
+
+apply from: "$rootDir/gradle/versioning.gradle"
+apply from: "$rootDir/gradle/docker.gradle"
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+bootJar {
+    baseName = 'com.toedter.ms60min'
+}
+
+jar {
+    baseName = 'com.toedter.ms60min'
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-data-rest')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.data:spring-data-rest-hal-browser')
+
+    compileOnly('org.projectlombok:lombok')
+
+    runtime('org.springframework.boot:spring-boot-devtools')
+    runtime('org.hsqldb:hsqldb')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+task copyWebApp(type: Copy) {
+    from('../frontend/dist') {
+        include '**/*'
+    }
+    into 'build/resources/main/static'
+
+    includeEmptyDirs = false
+}
+
+copyWebApp.dependsOn ':frontend:build'
+bootJar.dependsOn copyWebApp
+build.dependsOn createDockerfile, copyWebApp
+
+// =============================
+//  JUnit
+// =============================
+
+test {
+    group = 'test'
+    description = 'Runs all unit tests for this project (fast)'
+    useJUnit {
+        includeCategories 'com.toedter.test.category.UnitTest'
+    }
+    jacoco {
+        destinationFile = file("$buildDir/jacoco/jacoco.exec")
+    }
+}
+
+task integrationTest(type: Test) {
+    group = 'test'
+    description = 'Runs all integration tests for this project (slow)'
+    useJUnit {
+        includeCategories 'com.toedter.test.category.IntegrationTest'
+    }
+    reports.junitXml.destination = file("$buildDir/test-results/test/")
+    jacoco {
+        destinationFile = file("$buildDir/jacoco/jacoco-it.exec")
+    }
+    // set build directory for Jenkins test harness, JENKINS-26331
+    systemProperty 'buildDirectory', project.buildDir.absolutePath
+}
+
+// =============================
+//  JaCoCo
+// =============================
+
+jacoco {
+    toolVersion = "0.7.9"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
+
+task jacocoMergeReports(type: JacocoMerge) {
+    destinationFile = file("${project.buildDir}/jacoco/coverage.exec")
+    def unitSource = new File("${project.buildDir}/jacoco/jacoco.exec")
+    def integrationSource = new File("${project.buildDir}/jacoco/jacoco-i.exec")
+    if (unitSource.exists() && integrationSource.exists()) {
+        executionData = files(unitSource, integrationSource)
+    } else if (unitSource.exists()) {
+        executionData = files(unitSource)
+    } else if (integrationSource.exists()) {
+        executionData = files(integrationSource)
+    }
+}
+
+// =============================
+//  SonarQube
+// =============================
+
+sonarqube {
+    // see https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner+for+Gradle
+    properties {
+        property "sonar.projectName", "${project.name}"
+        property "sonar.branch", branchFromScm()
+        property "sonar.junit.reportsPath", "${project.buildDir}/test-results/test/"
+        property "sonar.jacoco.reportPaths", "${project.buildDir}/jacoco/coverage.exec"
+    }
+}
+tasks.sonarqube.dependsOn jacocoMergeReports //, junitMergeReports
+
+def branchFromScm() {
+    return "git rev-parse --abbrev-ref HEAD".execute().text.trim()
+}
+
+// =============================
+//  Artifactory
+// =============================
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId 'com.toedter'
+            artifactId 'com.toedter.ms60min'
+
+            from components.java
+        }
+    }
+}
+
+artifactory {
+    publish {
+        contextUrl = System.getenv('ARTIFACTORY_SERVER_URL') + '/artifactory'
+        repository {
+            repoKey = 'libs-release-local'
+            username = System.getenv('ARTIFACTORY_LOGIN')
+            password = System.getenv('ARTIFACTORY_PASSWORD')
+        }
+        defaults {
+            publications('mavenJava')
+            publishArtifacts = true
+            publishPom = true
+        }
+    }
+}
+
+artifactoryPublish {
+    dependsOn bootJar
+}

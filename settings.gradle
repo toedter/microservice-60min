@@ -1,1 +1,10 @@
+include 'frontend'
+include 'backend'
+
 rootProject.name = 'microservice-60min'
+rootProject.children.each { project ->
+    String fileBaseName = project.name
+    String projectDirName = "$fileBaseName"
+    project.projectDir = new File(settingsDir, projectDirName)
+    assert project.projectDir.isDirectory()
+}
