@@ -19,7 +19,7 @@ install: true
 script:
   - ./gradlew build
   - ./gradlew sonarqube
-  - docker build -t kaitoedter/ms60min build
+  - docker build -t kaitoedter/ms60min backend/build
   - docker login --username="$DOCKER_USERNAME" --password="$DOCKER_PASSWORD"
   - docker push kaitoedter/ms60min
   - docker tag kaitoedter/ms60min registry.heroku.com/microservice-60min/web
