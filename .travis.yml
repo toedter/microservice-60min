@@ -17,7 +17,7 @@ services:
 install: true
 
 script:
-  - ./gradlew build
+  - ./gradlew build integrationtest
   - ./gradlew sonarqube
   - docker build -t kaitoedter/ms60min backend/build
   - docker login --username="$DOCKER_USERNAME" --password="$DOCKER_PASSWORD"
