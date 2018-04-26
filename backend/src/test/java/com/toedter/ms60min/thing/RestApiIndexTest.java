@@ -1,11 +1,10 @@
 package com.toedter.ms60min.thing;
 
-import com.toedter.test.category.UnitTest;
 import org.hamcrest.CoreMatchers;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.Link;
@@ -13,7 +12,7 @@ import org.springframework.hateoas.LinkDiscoverer;
 import org.springframework.hateoas.LinkDiscoverers;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -23,8 +22,7 @@ import org.springframework.web.filter.ShallowEtagHeaderFilter;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Category(UnitTest.class)
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class RestApiIndexTest {
 
@@ -36,7 +34,7 @@ public class RestApiIndexTest {
 
     protected MockMvc mvc;
 
-    @Before
+    @BeforeEach
     public void before() throws Exception {
         mvc = MockMvcBuilders.webAppContextSetup(context).
                 addFilter(new ShallowEtagHeaderFilter()).
@@ -44,6 +42,7 @@ public class RestApiIndexTest {
     }
 
     @Test
+    @DisplayName("should get things link")
     public void shouldGetThingsLink() throws Exception {
         MockHttpServletResponse response = mvc.perform(get("/api")).
                 andDo(MockMvcResultHandlers.print()).

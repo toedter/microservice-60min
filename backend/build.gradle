@@ -44,11 +44,14 @@ dependencies {
     compile('org.springframework.data:spring-data-rest-hal-browser')
 
     compileOnly('org.projectlombok:lombok')
+    annotationProcessor('org.projectlombok:lombok')
 
     runtime('org.springframework.boot:spring-boot-devtools')
     runtime('org.hsqldb:hsqldb')
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile("org.junit.jupiter:junit-jupiter-api:5.1.1")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.1.1")
 }
 
 task copyWebApp(type: Copy) {
@@ -71,26 +74,52 @@ build.dependsOn createDockerfile, copyWebApp
 test {
     group = 'test'
     description = 'Runs all unit tests for this project (fast)'
-    useJUnit {
-        includeCategories 'com.toedter.test.category.UnitTest'
-    }
     jacoco {
         destinationFile = file("$buildDir/jacoco/jacoco.exec")
+    }
+
+    useJUnitPlatform {
+        // includeEngines 'junit-jupiter', 'junit-vintage'
+        // excludeEngines 'custom-engine'
+
+        // includeTags 'integration'
+        excludeTags 'integration'
+    }
+
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+
+    reports {
+        html.enabled = true
     }
 }
 
 task integrationTest(type: Test) {
     group = 'test'
     description = 'Runs all integration tests for this project (slow)'
-    useJUnit {
-        includeCategories 'com.toedter.test.category.IntegrationTest'
-    }
     reports.junitXml.destination = file("$buildDir/test-results/test/")
     jacoco {
         destinationFile = file("$buildDir/jacoco/jacoco-it.exec")
     }
     // set build directory for Jenkins test harness, JENKINS-26331
     systemProperty 'buildDirectory', project.buildDir.absolutePath
+
+    useJUnitPlatform {
+        // includeEngines 'junit-jupiter', 'junit-vintage'
+        // excludeEngines 'custom-engine'
+
+        includeTags 'integration'
+        // excludeTags 'integration'
+    }
+    
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+
+    reports {
+        html.enabled = true
+    }
 }
 
 // =============================

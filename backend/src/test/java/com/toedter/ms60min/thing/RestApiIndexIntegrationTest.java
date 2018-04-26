@@ -1,18 +1,17 @@
 package com.toedter.ms60min.thing;
 
-import com.toedter.test.category.IntegrationTest;
-import com.toedter.test.category.UnitTest;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@Category(IntegrationTest.class)
-@RunWith(SpringRunner.class)
+@Tag("integration")
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RestApiIndexIntegrationTest {
 
@@ -20,6 +19,7 @@ public class RestApiIndexIntegrationTest {
 	private TestRestTemplate restTemplate;
 
 	@Test
+	@DisplayName("should get API index")
 	public void shouldGetApiIndex() throws Exception {
 		ResponseEntity<String> response = restTemplate.getForEntity("/api", String.class);
 	}
