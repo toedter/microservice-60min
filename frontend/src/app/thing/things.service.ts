@@ -1,9 +1,8 @@
-import {Injectable} from '@angular/core';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import {Observable} from 'rxjs/Observable';
 import {Thing} from './thing';
-import {HttpClient, HttpResponse} from "@angular/common/http";
+import {Injectable} from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+import {Observable, throwError} from 'rxjs';
+import {catchError, map} from "rxjs/operators";
 
 @Injectable()
 export class ThingsService {
@@ -18,9 +17,9 @@ export class ThingsService {
         }
 
         let observable: Observable<Thing[]> =
-            this.http.get(uri)
-                .map((response: any) => response._embedded['things'])
-                .catch(this.handleError);
+            this.http.get(uri).pipe(
+                map((response: any) => response._embedded['things']),
+                catchError(this.handleError));
 
         return observable;
     }
@@ -28,6 +27,6 @@ export class ThingsService {
     private handleError(error: any) {
         let errMsg = 'ThingsService: cannot get things from http server.';
         console.error(errMsg); // log to console instead
-        return Observable.throw(errMsg);
+        return throwError(errMsg);
     }
 }
