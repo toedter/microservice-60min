@@ -25,9 +25,7 @@ script:
   - docker tag kaitoedter/ms60min registry.heroku.com/microservice-60min/web
   - docker login --username=_ --password="$HEROKU_AUTH_TOKEN" registry.heroku.com
   - docker push registry.heroku.com/microservice-60min/web
-  - curl -n -X PATCH https://api.heroku.com/apps/microservice-60min/formation \
-    -d '{"updates":[{"type":"web","docker_image":"sha256:54b2fcf91c549dfa4da3a3ec268bf896eb0d22bea8899c94c50201cc50052af7"}]}' \
-    -H "Content-Type: application/json" -H "Accept: application/vnd.heroku+json; version=3.docker-releases" -H "Authorization: Bearer $HEROKU_AUTH_TOKEN"
+  - curl -n -X PATCH https://api.heroku.com/apps/microservice-60min/formation -d '{"updates":[{"type":"web","docker_image":"sha256:54b2fcf91c549dfa4da3a3ec268bf896eb0d22bea8899c94c50201cc50052af7"}]}' -H "Content-Type: application/json" -H "Accept: application/vnd.heroku+json; version=3.docker-releases" -H "Authorization: Bearer $HEROKU_AUTH_TOKEN"
 
 cache:
   directories:
