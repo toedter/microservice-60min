@@ -7,10 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.LinkDiscoverer;
-import org.springframework.hateoas.LinkDiscoverers;
-import org.springframework.hateoas.MediaTypes;
+import org.springframework.hateoas.*;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -54,7 +51,7 @@ public class RestApiIndexTest {
 
         LinkDiscoverer discoverer = links.getLinkDiscovererFor(response.getContentType());
         Link link = discoverer.findLinkWithRel("things", response.getContentAsString());
-        String href = link.getHref();
+        String href = link.getTemplate().expand(TemplateVariables.NONE).toString();
 
         mvc.perform(get(href)).
                 andDo(MockMvcResultHandlers.print()).
