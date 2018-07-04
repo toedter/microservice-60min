@@ -30,6 +30,10 @@ repositories {
     mavenCentral()
 }
 
+springBoot {
+    buildInfo()
+}
+
 bootJar {
     baseName = 'com.toedter.ms60min'
 }
@@ -41,6 +45,7 @@ jar {
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-rest')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-actuator')
     // compile('org.springframework.data:spring-data-rest-hal-browser')
     compile('org.webjars:hal-explorer:0.9.4')
 
