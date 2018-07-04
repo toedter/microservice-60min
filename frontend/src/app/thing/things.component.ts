@@ -6,7 +6,7 @@ import {ThingsService} from './things.service';
 @Component({
     selector: 'things',
     templateUrl: 'things.component.html',
-    providers: [ThingsService],
+    providers: [ThingsService]
 })
 export class ThingsComponent implements OnInit{
     things: Thing[];

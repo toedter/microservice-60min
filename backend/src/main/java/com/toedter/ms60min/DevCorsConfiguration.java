@@ -20,7 +20,7 @@ public class DevCorsConfiguration {
 		config.addAllowedOrigin("http://localhost:4200");
 		config.addAllowedHeader("*");
 		config.addAllowedMethod("*");
-		source.registerCorsConfiguration("/api/**", config);
+		source.registerCorsConfiguration("/**", config);
 		FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
 		bean.setOrder(0);
 		return bean;
