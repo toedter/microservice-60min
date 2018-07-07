@@ -10,7 +10,7 @@
     </thead>
     <tbody>
     <tr *ngFor="let thing of things">
-      <td style="text-align: left; width:30%"><a href="{{thing._links.self.href}}">{{thing.name}}</a></td>
+      <td style="text-align: left; width:30%"><a href="/webjars/hal-explorer/0.9.4/index.html#theme=Cosmo&url={{thing._links.self.href}}">{{thing.name}}</a></td>
       <td style="text-align: left; width:30%;">{{thing.color}}</td>
       <td style="text-align: left; width:40%;" [ngStyle]="{ 'background-color': thing.color }"></td>
     </tr>
