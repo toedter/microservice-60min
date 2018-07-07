@@ -6,7 +6,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
@@ -45,10 +44,5 @@ public class Ms60minApplication implements WebMvcConfigurer {
                         webColors.get(random.nextInt(colorsSize))));
             }
         };
-    }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/hal-explorer/**").addResourceLocations("classpath:/META-INF/resources/webjars/hal-explorer/0.9.4/");
     }
 }
