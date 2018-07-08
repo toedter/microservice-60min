@@ -1,7 +1,6 @@
 package com.toedter.ms60min.thing;
 
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface ThingRepository extends PagingAndSortingRepository<Thing, String> {
+public interface ThingRepository extends PagingAndSortingRepository<Thing, Long> {
 }

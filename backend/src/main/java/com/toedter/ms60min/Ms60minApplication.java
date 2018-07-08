@@ -39,7 +39,7 @@ public class Ms60minApplication implements WebMvcConfigurer {
 
         return args -> {
             for (int i = 0; i < 100; i++) {
-                thingRepository.save(new Thing("" + i,
+                thingRepository.save(new Thing(
                         things.get(random.nextInt(thingsSize)),
                         webColors.get(random.nextInt(colorsSize))));
             }

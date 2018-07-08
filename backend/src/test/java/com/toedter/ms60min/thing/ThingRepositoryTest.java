@@ -38,7 +38,7 @@ public class ThingRepositoryTest {
 	}
 
 	public static Thing createThing() {
-		Thing testThing = new Thing("testThing", "Test", "Black");
+		Thing testThing = new Thing("Test", "Black");
 		return testThing;
 	}
 }
