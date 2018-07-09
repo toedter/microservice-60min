@@ -1,0 +1,46 @@
+[[resources-things]]
+=== Things
+
+The Things resource is used to create and list things.
+
+
+[[resources-list-things]]
+==== Listing things
+
+A `GET` request will list all of the service's things.
+
+===== Response structure
+
+include::{snippets}/list-things/response-fields.adoc[]
+
+===== Example request
+
+include::{snippets}/list-things/curl-request.adoc[]
+
+===== Example response
+
+include::{snippets}/list-things/http-response.adoc[]
+
+===== Links
+
+include::{snippets}/list-things/links.adoc[]
+
+
+//[[resources-things-create]]
+//==== Creating a thing
+//
+//A `POST` request is used to create a thing
+//
+//===== Request structure
+//
+//include::{snippets}/things-create/request-fields.adoc[]
+//
+//===== Example request
+//
+//include::{snippets}/things-create/curl-request.adoc[]
+//
+//===== Example response
+//
+//include::{snippets}/things-create/http-response.adoc[]
+//
+//include::thing.adoc[]

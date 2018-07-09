@@ -7,12 +7,18 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.15'
     }
 }
 
 plugins {
     id "org.sonarqube" version "2.5"
     id "com.jfrog.artifactory" version "4.7.3"
+    id "org.asciidoctor.convert" version "1.5.3"
+}
+
+ext {
+    snippetsDir = file("$buildDir/generated-snippets")
 }
 
 apply plugin: 'java'
@@ -34,8 +40,14 @@ springBoot {
     buildInfo()
 }
 
-bootJar {
-    baseName = 'com.toedter.ms60min'
+asciidoctor {
+    dependsOn test
+    attributes = [
+            snippets: snippetsDir
+    ]
+
+//    backends = ['html5', 'pdf']
+    inputs.dir snippetsDir
 }
 
 jar {
@@ -58,6 +70,10 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile("org.junit.jupiter:junit-jupiter-api:5.1.1")
     testRuntime("org.junit.jupiter:junit-jupiter-engine:5.1.1")
+
+    testCompile "org.springframework.restdocs:spring-restdocs-core"
+    testCompile "org.springframework.restdocs:spring-restdocs-asciidoctor"
+    testCompile "org.springframework.restdocs:spring-restdocs-mockmvc"
 }
 
 task copyWebApp(type: Copy) {
@@ -69,8 +85,19 @@ task copyWebApp(type: Copy) {
     includeEmptyDirs = false
 }
 
+task copyDoc(type: Copy) {
+    from "${asciidoctor.outputDir}"
+    into "$buildDir/resources/main/static/docs"
+}
+
+bootJar {
+    baseName = 'com.toedter.ms60min'
+    dependsOn copyWebApp
+    dependsOn asciidoctor
+    dependsOn copyDoc
+}
+
 copyWebApp.dependsOn ':frontend:build'
-bootJar.dependsOn copyWebApp
 build.dependsOn createDockerfile, copyWebApp
 
 // =============================
@@ -80,6 +107,7 @@ build.dependsOn createDockerfile, copyWebApp
 test {
     group = 'test'
     description = 'Runs all unit tests for this project (fast)'
+
     jacoco {
         destinationFile = file("$buildDir/jacoco/jacoco.exec")
     }
@@ -99,6 +127,8 @@ test {
     reports {
         html.enabled = true
     }
+
+    outputs.dir snippetsDir
 }
 
 task integrationTest(type: Test) {
@@ -118,7 +148,7 @@ task integrationTest(type: Test) {
         includeTags 'integration'
         // excludeTags 'integration'
     }
-    
+
     testLogging {
         events "passed", "skipped", "failed"
     }

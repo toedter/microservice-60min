@@ -6,6 +6,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.hateoas.UriTemplate;
+import org.springframework.hateoas.hal.CurieProvider;
+import org.springframework.hateoas.hal.DefaultCurieProvider;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
@@ -14,6 +17,13 @@ import java.util.Random;
 
 @SpringBootApplication
 public class Ms60minApplication implements WebMvcConfigurer {
+
+    public static String CURIE_NAMESPACE = "ms60min";
+
+    public @Bean
+    CurieProvider curieProvider() {
+        return new DefaultCurieProvider(CURIE_NAMESPACE, new UriTemplate("/docs/html5/{rel}.html"));
+    }
 
     public static void main(String[] args) {
         // when deployed as a docker container to Heroku

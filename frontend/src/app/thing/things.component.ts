@@ -24,7 +24,7 @@ export class ThingsComponent implements OnInit{
     reload(uri?:string, page?: number) {
       this.thingsService.getThings(uri, page).subscribe(
         (response: any) => {
-          this.things = response._embedded['things']
+          this.things = response._embedded['ms60min:things']
           this.links = response._links;
           this.pageInfo = response.page;
           this.pageArray = new Array<number>(response.page.totalPages);

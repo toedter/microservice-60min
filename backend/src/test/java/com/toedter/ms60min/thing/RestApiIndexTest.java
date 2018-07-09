@@ -45,17 +45,17 @@ public class RestApiIndexTest {
                 andDo(MockMvcResultHandlers.print()).
                 andExpect(status().isOk()).
                 andExpect(content().contentType("application/hal+json;charset=UTF-8")).
-                andExpect(jsonPath("_links.things.href", CoreMatchers.notNullValue())).
+                andExpect(jsonPath("_links.ms60min:things.href", CoreMatchers.notNullValue())).
                 andReturn().
                 getResponse();
 
         LinkDiscoverer discoverer = links.getLinkDiscovererFor(response.getContentType());
-        Link link = discoverer.findLinkWithRel("things", response.getContentAsString());
+        Link link = discoverer.findLinkWithRel("ms60min:things", response.getContentAsString());
         String href = link.getTemplate().expand(TemplateVariables.NONE).toString();
 
         mvc.perform(get(href)).
                 andDo(MockMvcResultHandlers.print()).
                 andExpect(content().contentTypeCompatibleWith(MediaTypes.HAL_JSON)).
-                andExpect(jsonPath("_embedded.things", CoreMatchers.notNullValue()));
+                andExpect(jsonPath("_embedded.ms60min:things", CoreMatchers.notNullValue()));
     }
 }
