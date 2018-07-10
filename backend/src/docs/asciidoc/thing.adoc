@@ -4,21 +4,21 @@
 The Thing resource is used to get and change a single thing.
 
 
-//[[resources-thing-get]]
-//==== Getting a thing
-//
-//===== Response structure
-//
-//include::{snippets}/thing-get-example/response-fields.adoc[]
-//
-//===== Example request
-//
-//include::{snippets}/thing-get-example/curl-request.adoc[]
-//
-//===== Example response
-//
-//include::{snippets}/thing-get-example/http-response.adoc[]
-//
-//===== Links
-//
-//include::{snippets}/thing-get-example/links.adoc[]
+[[resources-thing-get]]
+==== Getting a thing
+
+===== Response structure
+
+include::{snippets}/get-thing/response-fields.adoc[]
+
+===== Example request
+
+include::{snippets}/get-thing/curl-request.adoc[]
+
+===== Example response
+
+include::{snippets}/get-thing/http-response.adoc[]
+
+===== Links
+
+include::{snippets}/get-thing/links.adoc[]

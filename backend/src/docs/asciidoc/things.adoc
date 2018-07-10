@@ -26,21 +26,21 @@ include::{snippets}/list-things/http-response.adoc[]
 include::{snippets}/list-things/links.adoc[]
 
 
-//[[resources-things-create]]
-//==== Creating a thing
-//
-//A `POST` request is used to create a thing
-//
-//===== Request structure
-//
-//include::{snippets}/things-create/request-fields.adoc[]
-//
-//===== Example request
-//
-//include::{snippets}/things-create/curl-request.adoc[]
-//
-//===== Example response
-//
-//include::{snippets}/things-create/http-response.adoc[]
-//
-//include::thing.adoc[]
+[[resources-create-thing]]
+==== Creating a thing
+
+A `POST` request is used to create a thing
+
+===== Request structure
+
+include::{snippets}/create-thing/request-fields.adoc[]
+
+===== Example request
+
+include::{snippets}/create-thing/curl-request.adoc[]
+
+===== Example response
+
+include::{snippets}/create-thing/http-response.adoc[]
+
+include::thing.adoc[]
