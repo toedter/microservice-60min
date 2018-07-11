@@ -19,6 +19,7 @@ include::{snippets}/get-thing/curl-request.adoc[]
 
 include::{snippets}/get-thing/http-response.adoc[]
 
+[[resources-thing-links]]
 ===== Links
 
 include::{snippets}/get-thing/links.adoc[]

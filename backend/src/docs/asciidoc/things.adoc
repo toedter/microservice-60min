@@ -4,7 +4,7 @@
 The Things resource is used to create and list things.
 
 
-[[resources-list-things]]
+[[resources-things-list]]
 ==== Listing things
 
 A `GET` request will list all of the service's things.
@@ -26,7 +26,7 @@ include::{snippets}/list-things/http-response.adoc[]
 include::{snippets}/list-things/links.adoc[]
 
 
-[[resources-create-thing]]
+[[resources-thing-create]]
 ==== Creating a thing
 
 A `POST` request is used to create a thing

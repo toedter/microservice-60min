@@ -113,7 +113,7 @@ public class ThingDocumentationTests {
                 .andExpect(status().isOk())
                 .andDo(this.documentationHandler.document(
                         links(
-                                linkWithRel("ms60min:things").description("The <<resources-things,things resource>>"),
+                                linkWithRel("ms60min:things").description("The <<resources-things,Things resource>>"),
                                 linkWithRel("curies").description("The Curies for documentation"),
                                 linkWithRel("profile").description("The profiles of the REST resources")
                         ),
@@ -132,13 +132,13 @@ public class ThingDocumentationTests {
                 .andExpect(status().isOk())
                 .andDo(this.documentationHandler.document(
                         links(
-                                linkWithRel("self").description("The <<resources-messages,Messages resource>>"),
+                                linkWithRel("self").description("The <<resources-things,Things resource>>"),
                                 linkWithRel("profile").description("The profile describes the data structure of this resource"),
                                 linkWithRel("curies").description("Curies are used for online documentation")
                         ),
                         responseFields(
                                 subsectionWithPath("_embedded.ms60min:things").description("An array of <<resources-thing, Thing resources>>"),
-                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources"),
+                                subsectionWithPath("_links").description("<<resources-things-links,Links>> to other resources"),
                                 subsectionWithPath("page").description("The pagination information")
                         )));
     }
@@ -160,7 +160,7 @@ public class ThingDocumentationTests {
                         responseFields(
                                 fieldWithPath("name").description("The thins's name"),
                                 fieldWithPath("color").description("The thing's color"),
-                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                                subsectionWithPath("_links").description("<<resources-thing-links,Links>> to other resources")
                         )));
     }
 

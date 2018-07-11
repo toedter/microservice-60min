@@ -121,9 +121,8 @@ include::{snippets}/index-example/http-response.adoc[]
 
 include::{snippets}/index-example/links.adoc[]
 
-
 include::things.adoc[]
-// include::thing.adoc[]
+
 
 
 
