@@ -18,11 +18,9 @@ import java.util.Random;
 @SpringBootApplication
 public class Ms60minApplication implements WebMvcConfigurer {
 
-    public static String CURIE_NAMESPACE = "ms60min";
-
     public @Bean
     CurieProvider curieProvider() {
-        return new DefaultCurieProvider(CURIE_NAMESPACE, new UriTemplate("/docs/html5/{rel}.html"));
+        return new DefaultCurieProvider("ms60min", new UriTemplate("/docs/html5/{rel}.html"));
     }
 
     public static void main(String[] args) {
