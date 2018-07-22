@@ -138,7 +138,7 @@ public class ThingDocumentationTests {
                         ),
                         responseFields(
                                 subsectionWithPath("_embedded.ms60min:things").description("An array of <<resources-thing, Thing resources>>"),
-                                subsectionWithPath("_links").description("<<resources-things-links,Links>> to other resources"),
+                                subsectionWithPath("_links").description("<<resources-things-list_links,Links>> to other resources"),
                                 subsectionWithPath("page").description("The pagination information")
                         )));
     }
@@ -160,7 +160,7 @@ public class ThingDocumentationTests {
                         responseFields(
                                 fieldWithPath("name").description("The thins's name"),
                                 fieldWithPath("color").description("The thing's color"),
-                                subsectionWithPath("_links").description("<<resources-thing-links,Links>> to other resources")
+                                subsectionWithPath("_links").description("<<resources-thing-get_links,Links>> to other resources")
                         )));
     }
 

@@ -7,18 +7,19 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.15'
     }
 }
 
 plugins {
     id "org.sonarqube" version "2.5"
     id "com.jfrog.artifactory" version "4.7.3"
-    id "org.asciidoctor.convert" version "1.5.3"
+    id "org.asciidoctor.convert" version "1.5.8"
 }
 
 ext {
-    snippetsDir = file("$buildDir/generated-snippets")
+    snippetsDir = file('build/generated-snippets')
+    junitJupiterVersion = '5.2.0'
+    restDocsVersion = '2.0.2.RELEASE'
 }
 
 apply plugin: 'java'
@@ -41,13 +42,8 @@ springBoot {
 }
 
 asciidoctor {
-    dependsOn test
-    attributes = [
-            snippets: snippetsDir
-    ]
-
-//    backends = ['html5', 'pdf']
     inputs.dir snippetsDir
+    dependsOn test
 }
 
 jar {
@@ -55,6 +51,8 @@ jar {
 }
 
 dependencies {
+    asciidoctor "org.springframework.restdocs:spring-restdocs-asciidoctor:${restDocsVersion}"
+
     compile('org.springframework.boot:spring-boot-starter-data-rest')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-actuator')
@@ -67,13 +65,12 @@ dependencies {
     runtime('org.springframework.boot:spring-boot-devtools')
     runtime('org.hsqldb:hsqldb')
 
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile("org.junit.jupiter:junit-jupiter-api:5.1.1")
-    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.1.1")
-
-    testCompile "org.springframework.restdocs:spring-restdocs-core"
-    testCompile "org.springframework.restdocs:spring-restdocs-asciidoctor"
-    testCompile "org.springframework.restdocs:spring-restdocs-mockmvc"
+    testCompile('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'junit', module: 'junit;'
+    }
+    testCompile 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    testCompile "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
+    testRuntime "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
 }
 
 task copyWebApp(type: Copy) {
