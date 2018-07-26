@@ -158,7 +158,7 @@ public class ThingDocumentationTests {
                                 linkWithRel("curies").description("Curies are used for online documentation")
                         ),
                         responseFields(
-                                fieldWithPath("name").description("The thins's name"),
+                                fieldWithPath("name").description("The thing's name"),
                                 fieldWithPath("color").description("The thing's color"),
                                 subsectionWithPath("_links").description("<<resources-thing-get_links,Links>> to other resources")
                         )));
@@ -177,7 +177,7 @@ public class ThingDocumentationTests {
                 status().isCreated())
                 .andDo(this.documentationHandler.document(
                         requestFields(
-                                fieldWithPath("name").description("The thins's name"),
+                                fieldWithPath("name").description("The thing's name"),
                                 fieldWithPath("color").description("The thing's color")
                         )
                 ));
