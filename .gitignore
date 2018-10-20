@@ -28,3 +28,7 @@ node_modules
 *tfstate*
 *.pem
 *.ppk
+
+### eclipse ###
+.classpath
+.project
