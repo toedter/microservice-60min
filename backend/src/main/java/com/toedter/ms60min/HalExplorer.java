@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 public class HalExplorer {
 	@RequestMapping(value = { "/", "" }, method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
 	public View index(HttpServletRequest request) {
-        final String url = "/webjars/hal-explorer/0.9.4/index.html?#url=/api";
+        final String url = "/webjars/hal-explorer/0.9.5/index.html?#url=/api";
         return new RedirectView(url);
 	}
 }
