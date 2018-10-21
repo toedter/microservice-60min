@@ -1,0 +1,8 @@
+tasks:
+  - command: "./gradlew build bootrun && export CHROME_BIN=/usr/bin/chromium-browser"
+
+ports:
+  - port: 8080
+    protocol: "http"
+  - port: 4280
+    protocol: "http"
