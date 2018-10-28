@@ -14,7 +14,7 @@ a microservice with Spring Boot, Angular and Docker.
 * Open a Web browser at http://localhost:8080
 
 == Travis CI
-You can browse th latest Travis CI build at https://travis-ci.org/toedter/microservice-60min
+You can browse the latest Travis CI build at https://travis-ci.org/toedter/microservice-60min
 
 == Heroku
 
