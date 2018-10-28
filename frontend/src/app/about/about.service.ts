@@ -5,26 +5,22 @@ import {catchError, map} from "rxjs/operators";
 
 @Injectable()
 export class AboutService {
-  constructor(private http: HttpClient) {
-  }
+    constructor(private http: HttpClient) {
+    }
 
-  public getBuildInfo(): Observable<any> {
-    let uri = '/actuator/info';
-      if (!document.location.hostname || document.location.hostname === 'localhost') {
-          uri = 'http://localhost:8080' + uri;
-      }
+    public getBuildInfo(): Observable<any> {
+        let uri = '/actuator/info';
+        let observable: Observable<any> =
+            this.http.get(uri).pipe(
+                map((response: any) => response),
+                catchError(this.handleError));
 
-      let observable: Observable<any> =
-      this.http.get(uri).pipe(
-        map((response: any) => response),
-        catchError(this.handleError));
+        return observable;
+    }
 
-    return observable;
-  }
-
-  private handleError(error: any) {
-    let errMsg = 'AboutService: cannot get build info from http server.';
-    console.error(errMsg); // log to console instead
-    return throwError(errMsg);
-  }
+    private handleError(error: any) {
+        let errMsg = 'AboutService: cannot get build info from http server.';
+        console.error(errMsg); // log to console instead
+        return throwError(errMsg);
+    }
 }

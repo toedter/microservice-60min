@@ -6,40 +6,36 @@ import {catchError, map} from "rxjs/operators";
 
 @Injectable()
 export class ThingsService {
-  constructor(private http: HttpClient) {
-  }
-
-  public getThings(uri?: string, page?: number, size?: number): Observable<any> {
-    if (!uri) {
-      uri = '/api/things';
-      if (!size) {
-        size = 10;
-      }
-      if (page || size) {
-        uri += '?'
-      }
-      if (page) {
-        uri += 'page=' + page + '&';
-      }
-
-      uri += 'size=' + size;
-
-      if (!document.location.hostname || document.location.hostname === 'localhost') {
-        uri = 'http://localhost:8080' + uri;
-      }
+    constructor(private http: HttpClient) {
     }
 
-    let observable: Observable<Thing[]> =
-      this.http.get(uri).pipe(
-        map((response: any) => response),
-        catchError(this.handleError));
+    public getThings(uri?: string, page?: number, size?: number): Observable<any> {
+        if (!uri) {
+            uri = '/api/things';
+            if (!size) {
+                size = 10;
+            }
+            if (page || size) {
+                uri += '?'
+            }
+            if (page) {
+                uri += 'page=' + page + '&';
+            }
 
-    return observable;
-  }
+            uri += 'size=' + size;
+        }
 
-  private handleError(error: any) {
-    let errMsg = 'ThingsService: cannot get things from http server.';
-    console.error(errMsg); // log to console instead
-    return throwError(errMsg);
-  }
+        let observable: Observable<Thing[]> =
+            this.http.get(uri).pipe(
+                map((response: any) => response),
+                catchError(this.handleError));
+
+        return observable;
+    }
+
+    private handleError(error: any) {
+        let errMsg = 'ThingsService: cannot get things from http server.';
+        console.error(errMsg); // log to console instead
+        return throwError(errMsg);
+    }
 }
