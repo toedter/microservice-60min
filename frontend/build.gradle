@@ -24,6 +24,8 @@ npm_install.outputs.dir new File(projectDir, "node_modules")
 npm_run_build.inputs.dir new File(projectDir, "src")
 npm_run_build.outputs.dir new File(projectDir, "dist")
 
+npm_run_lint.dependsOn npm_install
+npm_run_build.dependsOn npm_run_lint
 build.dependsOn npm_run_build
 
 

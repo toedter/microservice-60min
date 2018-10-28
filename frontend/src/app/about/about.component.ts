@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {AboutService} from "./about.service";
+import {AboutService} from './about.service';
 
 @Component({
-    selector: 'about',
+    selector: 'app-about',
     templateUrl: 'about.component.html',
-    styleUrls: ['about.component.css'],
-    providers: [AboutService]
+    styleUrls: ['about.component.css']
 })
 export class AboutComponent implements OnInit {
     version: string;
@@ -20,7 +19,7 @@ export class AboutComponent implements OnInit {
                 this.version = response.build.version;
                 this.time = response.build.time;
             },
-            error => console.error('AboutComponent: cannot get build info from AboutService')
+            () => console.error('AboutComponent: cannot get build info from AboutService')
         );
     }
 

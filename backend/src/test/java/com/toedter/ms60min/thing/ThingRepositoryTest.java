@@ -13,7 +13,7 @@ import static org.junit.Assert.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class ThingRepositoryTest {
+class ThingRepositoryTest {
 
 	@Autowired
 	ThingRepository thingRepository;
@@ -38,7 +38,6 @@ public class ThingRepositoryTest {
 	}
 
 	public static Thing createThing() {
-		Thing testThing = new Thing("Test", "Black");
-		return testThing;
+		return new Thing("Test", "Black");
 	}
 }

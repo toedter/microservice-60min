@@ -5,5 +5,5 @@ import {Component} from '@angular/core';
     providers: [],
     templateUrl: 'app.component.html',
 })
-export class WebApp {
+export class AppComponent {
 }

@@ -1,10 +1,11 @@
-import {Thing} from './thing';
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
-import {catchError, map} from "rxjs/operators";
+import {catchError, map} from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class ThingsService {
     constructor(private http: HttpClient) {
     }
@@ -16,7 +17,7 @@ export class ThingsService {
                 size = 10;
             }
             if (page || size) {
-                uri += '?'
+                uri += '?';
             }
             if (page) {
                 uri += 'page=' + page + '&';
@@ -25,16 +26,13 @@ export class ThingsService {
             uri += 'size=' + size;
         }
 
-        let observable: Observable<Thing[]> =
-            this.http.get(uri).pipe(
-                map((response: any) => response),
-                catchError(this.handleError));
-
-        return observable;
+        return this.http.get(uri).pipe(
+            map((response: any) => response),
+            catchError(this.handleError));
     }
 
-    private handleError(error: any) {
-        let errMsg = 'ThingsService: cannot get things from http server.';
+    private handleError() {
+        const errMsg = 'ThingsService: cannot get things from http server.';
         console.error(errMsg); // log to console instead
         return throwError(errMsg);
     }
