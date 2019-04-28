@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.1.2.RELEASE'
+        springBootVersion = '2.1.4.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -59,8 +59,8 @@ dependencies {
     // compile('org.springframework.data:spring-data-rest-hal-browser')
     compile('org.webjars:hal-explorer:0.9.5')
 
-    compileOnly('org.projectlombok:lombok:1.16.20')
-    annotationProcessor('org.projectlombok:lombok:1.16.20')
+    compileOnly('org.projectlombok:lombok:1.18.6')
+    annotationProcessor('org.projectlombok:lombok:1.18.6')
 
     runtime('org.springframework.boot:spring-boot-devtools')
     runtime('org.hsqldb:hsqldb')
