@@ -24,7 +24,7 @@ https://microservice-60min.herokuapp.com
 
 == REST API
 You can browse the REST API with the HAL-Explorer at
-https://microservice-60min.herokuapp.com/webjars/hal-explorer/0.9.5/index.html#theme=Cosmo&url=/api/
+https://microservice-60min.herokuapp.com/webjars/hal-explorer/0.10.0/index.html#theme=Cosmo&url=/api/
 
 == License
 
