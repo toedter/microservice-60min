@@ -8,6 +8,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.*;
+import org.springframework.hateoas.client.LinkDiscoverer;
+import org.springframework.hateoas.client.LinkDiscoverers;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -15,6 +17,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.ShallowEtagHeaderFilter;
+
+import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -44,14 +48,14 @@ public class RestApiIndexTest {
         MockHttpServletResponse response = mvc.perform(get("/api")).
                 andDo(MockMvcResultHandlers.print()).
                 andExpect(status().isOk()).
-                andExpect(content().contentType("application/hal+json;charset=UTF-8")).
+                andExpect(content().contentType("application/hal+json")).
                 andExpect(jsonPath("_links.ms60min:things.href", CoreMatchers.notNullValue())).
                 andReturn().
                 getResponse();
 
-        LinkDiscoverer discoverer = links.getLinkDiscovererFor(response.getContentType());
-        Link link = discoverer.findLinkWithRel("ms60min:things", response.getContentAsString());
-        String href = link.getTemplate().expand(TemplateVariables.NONE).toString();
+        Optional<LinkDiscoverer> discoverer = links.getLinkDiscovererFor(response.getContentType());
+        Optional<Link> link = discoverer.get().findLinkWithRel("ms60min:things", response.getContentAsString());
+        String href = link.get().getTemplate().expand(TemplateVariables.NONE).toString();
 
         mvc.perform(get(href)).
                 andDo(MockMvcResultHandlers.print()).
